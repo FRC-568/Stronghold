@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
+    <Compile Include="BotStrategy.cs" />
     <Compile Include="Defense.cs" />
     <Compile Include="fieldLocation.cs" />
     <Compile Include="Form1.cs">

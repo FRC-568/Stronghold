@@ -8,7 +8,7 @@ namespace StrongHold
 {
     class Defense
     {
-        public double friction { get; set; } //delay factor of robot getting thru
+        public double friction { get; set; } //delay factor of robot getting thru, in seconds
         public double successProbability { get; set; } //how often will make it thru on first try
         public int damage { get; set; } //0=none, 1=weakened, 2=damaged
         Random r = new Random();

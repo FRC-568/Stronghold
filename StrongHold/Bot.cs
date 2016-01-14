@@ -17,11 +17,15 @@ namespace StrongHold
         Boolean canClimb;
         [Flags] public enum autoAbility { none=0, move=1, breach=2, shoot=4 }
         [Flags] public enum teleAbility {none=0, shoot=1, climb=2, breach=4,shootLow=8}
+        public enum botMode {  none,auto,tele}
+        public botMode mode;
         public autoAbility canAuto;
         //for next action
-        double distancetogo;
+        BotStrategy strategy;
+        public double distancetogo;
         fieldLocation.places destination;
-        Defense def;
+        public Defense def;
+        public double defenseTimetogo;
 
         public GameField field;
 
@@ -32,7 +36,9 @@ namespace StrongHold
             canBreach = kind.HasFlag(teleAbility.breach);
 
             canAuto = autoKind;
+            mode = botMode.none;
 
+            strategy = new BotStrategy(this);
             location.current = fieldLocation.places.neutral;
             destination = fieldLocation.places.not_set;
             distancetogo = 0;
@@ -58,33 +64,35 @@ namespace StrongHold
 
         public void runAuto(double timeincr)
         {
+            mode = botMode.auto;
             if (canAuto == autoAbility.none) return; //sits in auto
             if (distancetogo > 0)
             {
                 distancetogo -= maxSpeed * timeincr; 
                 return; //currently driving
             }
-            if (def!=null)
+            if (def != null)
             {
                 //currently trying to breach a defense
-            }
-            switch (destination)
-            {
-                case fieldLocation.places.not_set:
-                    if (team == Alliance.blue)
-                        destination = fieldLocation.places.red_outerworks;
-                    else
-                        destination = fieldLocation.places.blue_outerworks;
-                    distancetogo = WorldFacts.neutralToOuter;
-                    break;
-                case fieldLocation.places.blue_outerworks:
-                    if (canAuto.HasFlag(autoAbility.breach))
+                //has time elapsed?
+                defenseTimetogo -= timeincr;
+                if (defenseTimetogo < 0)
+                {
+                    if (def.attempt())
                     {
-                        //pick defense to breach
-                        def = field.blueOuterworks[3];
+                        //success!
+                        def = null;
                     }
-                    break;
-
+                    else
+                    {
+                        //fail, try again
+                        defenseTimetogo = def.friction;
+                    }
+                }
+            }
+            else
+            {
+                destination = strategy.NextLocation(destination);
             }
  
         }
@@ -92,6 +100,7 @@ namespace StrongHold
         {
             //given a time increment do what we can
             //where do we want to go?
+            mode = botMode.tele;
         }
     }
 
