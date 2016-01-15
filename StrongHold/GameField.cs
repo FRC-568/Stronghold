@@ -16,8 +16,8 @@ namespace StrongHold
 
         double gameTime;
 
-        double autoScore;
-        double teleScore;
+        public double autoScore;
+        public double teleScore;
 
         public GameField()
         {
@@ -29,6 +29,10 @@ namespace StrongHold
         {
             //setup defenses
             redOuterworks[0] = new Defense();
+            redOuterworks[1] = new Defense();
+            redOuterworks[2] = new Defense();
+            redOuterworks[3] = new Defense();
+            redOuterworks[4] = new Defense();
             //setup bots
             //make some shortcut lables
             Bot.teleAbility tele1 = Bot.teleAbility.shoot | Bot.teleAbility.climb;
@@ -83,6 +87,16 @@ namespace StrongHold
                 }
                 gameTime += incr;
             }
+            //accumulate points gained in tele
+            for (int i = 0; i < 3; i++)
+            {
+                if (redAlliance[i].location.current == fieldLocation.places.blue_batter) teleScore += 2;
+                if (blueAlliance[i].location.current == fieldLocation.places.red_outerworks) teleScore += 2;
+                foreach (Defense d in redOuterworks)
+                    if (d.damage > 0) teleScore += 10;
+            }
+
+
         }
     }
 }

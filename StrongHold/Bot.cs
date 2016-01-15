@@ -12,9 +12,10 @@ namespace StrongHold
         public enum Alliance { red,blue}
         public Alliance team;
         public fieldLocation location= new fieldLocation();
-        Boolean canShoot;
-        Boolean canBreach;
-        Boolean canClimb;
+        public Boolean canShoot;
+        public Boolean canBreach;
+        public Boolean canClimb;
+        public Boolean hasBall;
         [Flags] public enum autoAbility { none=0, move=1, breach=2, shoot=4 }
         [Flags] public enum teleAbility {none=0, shoot=1, climb=2, breach=4,shootLow=8}
         public enum botMode {  none,auto,tele}
@@ -36,6 +37,7 @@ namespace StrongHold
             canBreach = kind.HasFlag(teleAbility.breach);
 
             canAuto = autoKind;
+            hasBall = true; //let each robot start with a ball
             mode = botMode.none;
 
             strategy = new BotStrategy(this);
@@ -81,6 +83,7 @@ namespace StrongHold
                     if (def.attempt())
                     {
                         //success!
+                        field.autoScore += 10;
                         def = null;
                     }
                     else
@@ -101,6 +104,35 @@ namespace StrongHold
             //given a time increment do what we can
             //where do we want to go?
             mode = botMode.tele;
+            if (distancetogo > 0)
+            {
+                distancetogo -= maxSpeed * timeincr;
+                return; //currently driving
+            }
+            if (def != null)
+            {
+                //currently trying to breach a defense
+                //has time elapsed?
+                defenseTimetogo -= timeincr;
+                if (defenseTimetogo < 0)
+                {
+                    if (def.attempt())
+                    {
+                        //success!
+                        field.teleScore += 5;
+                        def = null;
+                    }
+                    else
+                    {
+                        //fail, try again
+                        defenseTimetogo = def.friction;
+                    }
+                }
+            }
+            else
+            {
+                destination = strategy.NextLocation(destination);
+            }
         }
     }
 
