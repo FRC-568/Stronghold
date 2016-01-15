@@ -18,8 +18,30 @@ namespace StrongHold
 
 
         //timing notes
-        static public double breachLowBar = 5.0;
+        static public double breachLowBar = 4.0;
         static public double probLowBar = 0.95;
+
+        static public double breachGate = 15.0;
+        static public double probGate = .75;
+
+        static public double breachLiftGate = 12.0;
+        static public double probLiftGate = .5;
+
+        static public double breachTiltyBridge = 15.0;
+        static public double probTiltyBridge = .5;
+
+        static public double breachRoughTerrain = 7.5;
+        static public double probRoughTerrain = .5;
+
+        static public double breachMoat = 7.5;
+        static public double probMoat = .5;
+
+        static public double breachRockWall = 7.5;
+        static public double probRockWall = .5;
+
+        static public double breachRampart = 7.5;
+        static public double probRampart = .5;
+
 
         static public double breachRock = 5.0;
 
