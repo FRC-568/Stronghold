@@ -24,7 +24,7 @@ namespace StrongHold
         static public double breachGate = 15.0;
         static public double probGate = .75;
 
-        static public double breachLiftGate = 12.0;
+        static public double breachLiftGate = 15.0;
         static public double probLiftGate = .5;
 
         static public double breachTiltyBridge = 15.0;
@@ -42,8 +42,10 @@ namespace StrongHold
         static public double breachRampart = 7.5;
         static public double probRampart = .5;
 
+        static public double breachDrawBridge = 12;
+        static public double probDrawBridge = .6;
 
-        static public double breachRock = 5.0;
+       
 
     }
 }
