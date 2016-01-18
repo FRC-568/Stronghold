@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 //used to find next actions for a bot, example strategies are 'shooter' and 'breacher'
 namespace StrongHold
 {
-    class BotAllen
+    class BotAllen : IBotStrategy
     {
         Bot bot;
 
