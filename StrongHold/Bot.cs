@@ -22,7 +22,7 @@ namespace StrongHold
         public botMode mode;
         public autoAbility canAuto;
         //for next action
-        BotStrategy strategy;
+        IBotStrategy strategy;
         public double distancetogo;
         fieldLocation.places destination;
         public Defense def;
@@ -41,6 +41,8 @@ namespace StrongHold
             mode = botMode.none;
 
             strategy = new BotStrategy(this);
+            //strategy = new BotAllen(this);
+
             location.current = fieldLocation.places.neutral;
             destination = fieldLocation.places.not_set;
             distancetogo = 0;
