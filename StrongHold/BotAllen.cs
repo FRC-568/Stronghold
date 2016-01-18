@@ -32,7 +32,7 @@ namespace StrongHold
                     bot.def = pickDefense(current);
                     if (bot.def != null)
                     {
-                        bot.defenseTimetogo = bot.def.friction;
+                        bot.defenseTimetogo -= bot.def.friction;
                         results = fieldLocation.places.blue_outerworks_breached;
                     }
                     break;
@@ -59,6 +59,9 @@ namespace StrongHold
                             results = fieldLocation.places.red_outerworks;
                         } //note in auto we would just sit there
                     }
+                    break;
+                case fieldLocation.places.neutral:
+
                     break;
 
             }
@@ -91,7 +94,14 @@ namespace StrongHold
                     }
                     break;
                 case Bot.botMode.tele:
-                    results = options[3];
+                    for(int i = 0; i < 3; i++)
+                    {
+                        if(options[i].damage < 2)
+                        {
+                            results = options[i];
+                        }
+                    }
+
                     break;
             }
             return results;

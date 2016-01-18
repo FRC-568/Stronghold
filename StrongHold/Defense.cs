@@ -13,6 +13,13 @@ namespace StrongHold
         public int damage { get; set; } //0=none, 1=weakened, 2=damaged
         Random r = new Random();
 
+        public DefenseType type { get; set; }
+
+        public enum DefenseType
+        {
+            LowBar, Gate, LiftGate, TiltyBridge, RoughTerrain, Moat, RockWall, Rampart, DrawBridge
+        }
+
         public Boolean attempt()
         {
             Boolean results = false; //start with assumption we fail
